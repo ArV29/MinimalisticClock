@@ -7,31 +7,73 @@ const sTen = document.querySelector("[s-ten]");
 
 setInterval(setClock, 1);
 var second = 0;
-var key = 0
+var kSo = 0
+var kST = 0
+var kMO = 0
+var kMT = 0
+var kHO = 0
+var kHT = 0
+
 function setClock() {
 
     const currentTime = new Date();
     var seconds = currentTime.getSeconds();
     var minutes = currentTime.getMinutes();
     var hours = currentTime.getHours() % 12;
-    var ms = currentTime.getMilliseconds()%1000;
-    
-    if (ms>=780){
-        if(((1000-ms)%5) == 0){
-            key+=1;
-            
-            document.querySelector('[cover-s-one]').style.setProperty('background-color', "rgba(200, 200, 200, " + (45 - (1000 - ms) / 5) + "%)")
-            
-            console.log(document.querySelector('[cover-s-one]').style)
-        }
-    } 
-    if(ms>=500){
-        if (ms%5 == 0){
+    var ms = currentTime.getMilliseconds() % 1000;
+
+
+    if (ms >= 810) {
+        if (((1000 - ms) % 5) == 0) {
+            if (seconds % 10 == 9) {
+                if (Math.floor(seconds / 10) == 5) {
+                    kMO++
+                    document.querySelector('[cover-m-one]').style.setProperty('background-color', "rgba(200, 200, 200, " + (38 - (1000 - ms) / 5) + "%)")
+
+                    if (minutes % 10 == 9) {
+                        kMT++
+                        document.querySelector('[cover-k-ten]').style.setProperty('background-color', "rgba(200, 200, 200, " + (38 - (1000 - ms) / 5) + "%)")
+
+                        if (Math.floor(minutes / 10) == 5) {
+                            kHO++
+                            document.querySelector('[cover-h-one]').style.setProperty('background-color', "rgba(200, 200, 200, " + (38 - (1000 - ms) / 5) + "%)")
+
+                            if (hour % 10 == 9) {
+                                kHT++
+                                document.querySelector('[cover-h-ten]').style.setProperty('background-color', "rgba(200, 200, 200, " + (38 - (1000 - ms) / 5) + "%)")
+
+                            } else {
+                                kHT = 0
+                            }
+                        } else {
+                            kHO = 0
+                        }
+                    } else {
+                        kMT = 0
+                    }
+                } else {
+                    kMO = 0
+                }
+                kST    ++;
+                document.querySelector('[cover-s-ten]').style.setProperty('background-color', "rgba(200, 200, 200, " + (38 - (1000 - ms) / 5) + "%)")
+
+            } else {
+                kST = 0
+            }
+            kSO++;
+
+            document.querySelector('[cover-s-one]').style.setProperty('background-color', "rgba(200, 200, 200, " + (38 - (1000 - ms) / 5) + "%)")
 
         }
     }
-    else{
-        key = 0;
+    if (ms >= 500) {
+        if (ms % 5 == 0) {
+
+        }
+    } else {
+        kSO = 0;
+        kST = 0;
+        kMO = 0
     }
 
 
@@ -40,17 +82,17 @@ function setClock() {
 
 
 
-    sOne.style.setProperty("--move", (seconds % 10) * 38+key);
+    sOne.style.setProperty("--move", (seconds % 10) * 38 + kSO);
 
-    mOne.style.setProperty("--move", (minutes % 10) * 38);
+    mOne.style.setProperty("--move", (minutes % 10) * 38 + kMO);
 
-    hOne.style.setProperty("--move", (hours % 10) * 38);
+    hOne.style.setProperty("--move", (hours % 10) * 38 + kHO);
 
-    hTen.style.setProperty("--move", Math.floor(hours / 10) * 38);
+    hTen.style.setProperty("--move", Math.floor(hours / 10) * 38 + kHT);
 
-    mTen.style.setProperty("--move", Math.floor(minutes / 10) * 38);
+    mTen.style.setProperty("--move", Math.floor(minutes / 10) * 38 + kMT);
 
-    sTen.style.setProperty("--move", Math.floor(seconds / 10) * 38);
+    sTen.style.setProperty("--move", Math.floor(seconds / 10) * 38 + kST);
 
     magnify("s", seconds);
     magnify("m", minutes);
